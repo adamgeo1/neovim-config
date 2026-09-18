@@ -61,6 +61,7 @@ vim.pack.add({
     'https://github.com/MeanderingProgrammer/render-markdown.nvim',
     'https://github.com/folke/which-key.nvim',
     'https://github.com/stevearc/oil.nvim',
+    'https://github.com/kdheepak/lazygit.nvim',
 })
 
 -- Which-Key
@@ -230,3 +231,6 @@ require("oil").setup({
     },
 })
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+
+-- LazyGit
+vim.keymap.set('n', '<leader>g', '<cmd>LazyGit<cr>', { desc = 'LazyGit' })
