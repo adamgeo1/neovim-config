@@ -36,13 +36,21 @@ vim.diagnostic.config({
 })
 
 -- Show diagnostics
-vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'show diagnostics' })
+vim.keymap.set('n', '<leader>cd', vim.diagnostic.open_float, { desc = 'show diagnostics' })
 
 -- Easily move between windows
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+-- Move between buffers
+vim.keymap.set('n', '<S-h>', '<cmd>bprevious<CR>', { desc = 'Prev buffer' })
+vim.keymap.set('n', '<S-l>', '<cmd>bnext<CR>', { desc = 'Next buffer' })
+
+-- Splits
+vim.keymap.set('n', '<leader>s', ':split<CR>', { silent = true })
+vim.keymap.set('n', '<leader>v', ':vsplit<CR>', { silent = true })
 
 -- Highlight yanks
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -62,10 +70,20 @@ vim.pack.add({
     'https://github.com/folke/which-key.nvim',
     'https://github.com/stevearc/oil.nvim',
     'https://github.com/kdheepak/lazygit.nvim',
+    'https://github.com/esmuellert/codediff.nvim',
+    'https://github.com/windwp/nvim-autopairs',
+    'https://github.com/ellisonleao/gruvbox.nvim',
+    'https://github.com/nvim-mini/mini.tabline',
+    'https://github.com/nvim-mini/mini.icons',
 })
 
+-- Colorscheme
+require("gruvbox").setup({})
+vim.cmd.colorscheme("gruvbox")
+
 -- Which-Key
-require("which-key").setup({
+local wk = require("which-key")
+wk.setup({
     preset = "helix",
     plugins = {
         marks = true,
@@ -81,6 +99,69 @@ require("which-key").setup({
             g = true,
         },
     },
+})
+
+-- Close a buffer without wrecking your window layout
+local function close_buffer(buf)
+    buf = buf or vim.api.nvim_get_current_buf()
+
+    if vim.bo[buf].modified then
+        local name = vim.fn.bufname(buf)
+        if name == "" then name = "[No Name]" end
+        local choice = vim.fn.confirm(("Save changes to %s?"):format(name), "&Yes\n&No\n&Cancel", 3)
+        if choice == 1 then
+            vim.api.nvim_buf_call(buf, function() vim.cmd("write") end)
+        elseif choice ~= 2 then
+            return
+        end
+    end
+
+    -- Move every window showing this buffer onto another one first,
+    -- so :bdelete doesn't close the windows
+    for _, win in ipairs(vim.fn.win_findbuf(buf)) do
+        vim.api.nvim_win_call(win, function()
+            local alt = vim.fn.bufnr("#")
+            if alt > 0 and alt ~= buf and vim.fn.buflisted(alt) == 1 then
+                vim.cmd("buffer " .. alt)
+            else
+                vim.cmd("bprevious")
+            end
+            if vim.api.nvim_get_current_buf() == buf then
+                vim.cmd("enew") -- it was the only buffer
+            end
+        end)
+    end
+
+    if vim.api.nvim_buf_is_valid(buf) then
+        vim.cmd("bdelete! " .. buf)
+    end
+end
+
+-- Close every listed buffer except the current one (skips unsaved ones)
+local function close_others()
+    local current = vim.api.nvim_get_current_buf()
+    local skipped = 0
+    for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+        if buf ~= current and vim.bo[buf].buflisted then
+            if vim.bo[buf].modified then
+                skipped = skipped + 1
+            else
+                vim.cmd("bdelete " .. buf)
+            end
+        end
+    end
+    if skipped > 0 then
+        vim.notify(("Kept %d buffer(s) with unsaved changes"):format(skipped), vim.log.levels.WARN)
+    end
+end
+
+wk.add({
+    { "<leader>b",  group = "buffers" },
+    { "<leader>bb", function() require("fzf-lua").buffers() end, desc = "Pick buffer" },
+    { "<leader>bl", "<cmd>b#<cr>",                               desc = "Last buffer" },
+    { "<leader>bd", function() close_buffer() end,               desc = "Close buffer" },
+    { "<leader>bo", close_others,                                desc = "Close other buffers" },
+    { "<leader>bx", "<cmd>enew<cr>",                             desc = "New empty buffer" },
 })
 
 -- Fzflua
@@ -106,6 +187,9 @@ vim.api.nvim_create_autocmd('FileType', {
 require('blink.cmp').setup({
     signature = {
         enabled = true,
+    },
+    keymap = {
+        preset = 'super-tab',
     },
 })
 
@@ -234,3 +318,13 @@ vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
 -- LazyGit
 vim.keymap.set('n', '<leader>g', '<cmd>LazyGit<cr>', { desc = 'LazyGit' })
+
+-- Codediff
+require("codediff").setup({})
+
+-- Autopairs
+require("nvim-autopairs").setup({})
+
+-- Mini
+require('mini.icons').setup({})
+require('mini.tabline').setup({})
