@@ -52,6 +52,12 @@ vim.keymap.set('n', '<S-l>', '<cmd>bnext<CR>', { desc = 'Next buffer' })
 vim.keymap.set('n', '<leader>s', ':split<CR>', { silent = true })
 vim.keymap.set('n', '<leader>v', ':vsplit<CR>', { silent = true })
 
+-- Terminal Mode
+vim.keymap.set('t', '<C-h>', [[<Cmd>wincmd h<CR>]], { desc = 'Move focus to the left window' })
+vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], { desc = 'Move focus to the right window' })
+vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], { desc = 'Move focus to the lower window' })
+vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], { desc = 'Move focus to the upper window' })
+
 -- Highlight yanks
 vim.api.nvim_create_autocmd('TextYankPost', {
     group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
@@ -75,6 +81,7 @@ vim.pack.add({
     'https://github.com/ellisonleao/gruvbox.nvim',
     'https://github.com/nvim-mini/mini.tabline',
     'https://github.com/nvim-mini/mini.icons',
+    'https://github.com/coder/claudecode.nvim',
 })
 
 -- Colorscheme
@@ -287,6 +294,10 @@ vim.lsp.enable({
     'lua_ls',
     'vtsls',
     'clangd',
+    'jsonls',
+    'yamlls',
+    'taplo',
+    'jdtls',
 })
 vim.o.signcolumn = 'yes'
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'Go to definition' })
@@ -328,3 +339,26 @@ require("nvim-autopairs").setup({})
 -- Mini
 require('mini.icons').setup({})
 require('mini.tabline').setup({})
+
+-- Claude Code
+require("claudecode").setup({})
+
+wk.add({
+    { "<leader>a",  group = "AI/Claude Code" },
+    { "<leader>ac", "<cmd>ClaudeCode<cr>",            desc = "Toggle Claude" },
+    { "<leader>af", "<cmd>ClaudeCodeFocus<cr>",       desc = "Focus Claude" },
+    { "<leader>ar", "<cmd>ClaudeCode --resume<cr>",   desc = "Resume Claude" },
+    { "<leader>aC", "<cmd>ClaudeCode --continue<cr>", desc = "Continue Claude" },
+    { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "Select Claude model" },
+    { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>",       desc = "Add current buffer" },
+    { "<leader>as", "<cmd>ClaudeCodeSend<cr>",        mode = "v",                  desc = "Send to Claude" },
+    { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>",  desc = "Accept diff" },
+    { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>",    desc = "Deny diff" },
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'oil',
+    callback = function(ev)
+        vim.keymap.set('n', '<leader>as', '<cmd>ClaudeCodeTreeAdd<cr>', { buffer = ev.buf, desc = 'Add file' })
+    end,
+})
