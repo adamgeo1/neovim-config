@@ -10,7 +10,8 @@ vim.lsp.enable({
     'yamlls',
     'taplo',
     'jdtls',
-    'marksman'
+    'marksman',
+    'asm_lsp'
 })
 vim.o.signcolumn = 'yes'
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'Go to definition' })

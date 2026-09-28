@@ -17,6 +17,10 @@
       "rev": "09d9ebef2cc5a5c04db7a349cd6c61bdf84ecc8e",
       "src": "https://github.com/esmuellert/codediff.nvim"
     },
+    "csvview.nvim": {
+      "rev": "2466bdda54047f525d4faca53040fe657c9c33db",
+      "src": "https://github.com/hat0uma/csvview.nvim"
+    },
     "fzf-lua": {
       "rev": "02bc882f208f3481aa959dbbee8ce5edad2fd8b2",
       "src": "https://github.com/ibhagwan/fzf-lua"
@@ -76,6 +80,14 @@
     "render-markdown.nvim": {
       "rev": "640a3ec6d538bad17c328be373c7cad0293d9589",
       "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
+    },
+    "riscv-asm-vim": {
+      "rev": "af37cced21452c6edbe1f42811103be34ee19de2",
+      "src": "https://github.com/henry-hsieh/riscv-asm-vim"
+    },
+    "table-nvim": {
+      "rev": "816d251963bf4c8c3d765dab40ebac3c259c7b6d",
+      "src": "https://github.com/SCJangra/table-nvim"
     },
     "telescope.nvim": {
       "rev": "40aedd8a68c78a656a10a8d62d80c54af59420fb",
