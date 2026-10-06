@@ -11,7 +11,8 @@ vim.lsp.enable({
     'taplo',
     'jdtls',
     'marksman',
-    'asm_lsp'
+    'asm_lsp',
+    'texlab'
 })
 vim.o.signcolumn = 'yes'
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'Go to definition' })
