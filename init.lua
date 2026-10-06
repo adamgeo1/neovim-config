@@ -58,6 +58,9 @@ vim.keymap.set('t', '<C-l>', [[<Cmd>wincmd l<CR>]], { desc = 'Move focus to the 
 vim.keymap.set('t', '<C-j>', [[<Cmd>wincmd j<CR>]], { desc = 'Move focus to the lower window' })
 vim.keymap.set('t', '<C-k>', [[<Cmd>wincmd k<CR>]], { desc = 'Move focus to the upper window' })
 
+-- Stop highlight after search
+vim.keymap.set('n', '<Esc>', ':noh<CR>', { silent = true })
+
 -- Highlight yanks
 vim.api.nvim_create_autocmd('TextYankPost', {
     group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
