@@ -5,7 +5,12 @@ vim.cmd('syntax off')
 -- `:syntax off` disables the normal FileType -> 'syntax' option -> legacy
 -- highlighting chain, so setting 'syntax' afterwards is a no-op; source the
 -- syntax file directly instead.
+--
+-- `:e` on an open buffer wipes its syntax rules but leaves b:current_syntax
+-- set, and syntax files (vimtex's included) bail out early when that var
+-- exists, so clear it first or the reloaded buffer stays unhighlighted.
 local function start_legacy_syntax(ft)
+    vim.b.current_syntax = nil
     vim.cmd('runtime! syntax/' .. ft .. '.vim')
 end
 
