@@ -45,8 +45,9 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- Move between buffers
-vim.keymap.set('n', '<S-h>', '<cmd>bprevious<CR>', { desc = 'Prev buffer' })
-vim.keymap.set('n', '<S-l>', '<cmd>bnext<CR>', { desc = 'Next buffer' })
+vim.keymap.set({ 'n', 't' }, '<S-h>', '<cmd>bprevious<CR>', { desc = 'Prev buffer' })
+vim.keymap.set({ 'n', 't' }, '<S-l>', '<cmd>bnext<CR>', { desc = 'Next buffer' })
+-- TODO: make only work when claude is only window
 
 -- Splits
 vim.keymap.set('n', '<leader>s', ':split<CR>', { silent = true })
