@@ -1,19 +1,13 @@
 -- LSP
-vim.pack.add({ 'https://github.com/neovim/nvim-lspconfig' })
-vim.lsp.enable({
-    'ty',
-    'ruff',
-    'lua_ls',
-    'vtsls',
-    'clangd',
-    'jsonls',
-    'yamlls',
-    'taplo',
-    'jdtls',
-    'marksman',
-    'asm_lsp',
-    'texlab'
+vim.pack.add({
+    'https://github.com/neovim/nvim-lspconfig',
+    'https://github.com/mason-org/mason.nvim',
+    'https://github.com/mason-org/mason-lspconfig.nvim',
 })
+-- Mason prepends its bin dir to PATH, so server cmds resolve to mason installs
+require('mason').setup()
+-- Enables every server installed through mason
+require('mason-lspconfig').setup()
 vim.o.signcolumn = 'yes'
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'Go to definition' })
 -- Auto-format ("lint") on save (adapted from neovim docs :help auto-format)
