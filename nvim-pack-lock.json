@@ -26,8 +26,8 @@
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
     "gradle.nvim": {
-      "rev": "d5af3a69bdec7bd43e070b716cc93ca30df84f15",
-      "src": "https://github.com/pandalec/gradle.nvim"
+      "rev": "cba2bac6b37dbc05785e8c625548fc0025564e66",
+      "src": "https://github.com/oclay1st/gradle.nvim"
     },
     "gruvbox-material": {
       "rev": "11d779b26a9ab2b3db8c22c6ac9fb6e8ed4fea79",
@@ -65,6 +65,10 @@
       "rev": "525b27e98de7cd2a6012d99f45b4fc10676e00e5",
       "src": "https://github.com/nvim-mini/mini.tabline"
     },
+    "nui.nvim": {
+      "rev": "10fc361835c856ba4233ef5ea135b919bf3dce97",
+      "src": "https://github.com/MunifTanjim/nui.nvim"
+    },
     "nvim-autopairs": {
       "rev": "430522f95fe4fb7c511ec64f8c1a90cc6a66c05c",
       "src": "https://github.com/windwp/nvim-autopairs"
@@ -89,10 +93,6 @@
       "rev": "b73018b75affd13fa38e2fc94ef753b465f770d7",
       "src": "https://github.com/stevearc/oil.nvim"
     },
-    "plenary.nvim": {
-      "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
-      "src": "https://github.com/nvim-lua/plenary.nvim"
-    },
     "render-markdown.nvim": {
       "rev": "640a3ec6d538bad17c328be373c7cad0293d9589",
       "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
@@ -104,10 +104,6 @@
     "table-nvim": {
       "rev": "816d251963bf4c8c3d765dab40ebac3c259c7b6d",
       "src": "https://github.com/SCJangra/table-nvim"
-    },
-    "telescope.nvim": {
-      "rev": "40aedd8a68c78a656a10a8d62d80c54af59420fb",
-      "src": "https://github.com/nvim-telescope/telescope.nvim"
     },
     "toggleterm.nvim": {
       "rev": "9a88eae817ef395952e08650b3283726786fb5fb",
